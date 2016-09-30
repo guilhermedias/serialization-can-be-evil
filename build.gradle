@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+}
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'SerialKiller'
+    )
+  }
+}
