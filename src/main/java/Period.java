@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,7 +14,7 @@ public class Period implements Serializable {
         this.start = new Date(start.getTime());
         this.end = new Date(end.getTime());
 
-        if(start.after(end)) {
+        if(this.start.after(this.end)) {
             throw new IllegalArgumentException("Start date is past end date");
         }
     }
@@ -27,5 +30,14 @@ public class Period implements Serializable {
     @Override
     public String toString() {
         return format("FROM [%s] TO [%s]", start, end);
+    }
+
+    private void readObject(ObjectInputStream objectInputStream)
+        throws ClassNotFoundException, IOException {
+        objectInputStream.defaultReadObject();
+
+        if(this.start.after(this.end)) {
+            throw new InvalidObjectException("Start date is past end date");
+        }
     }
 }
